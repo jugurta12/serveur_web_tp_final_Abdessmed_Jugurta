@@ -17,22 +17,23 @@ Elle permet de gérer des produits, des utilisateurs et des avis via une API RES
 ```bash
 npm install express mongoose cors
 ```
-Lancer le serveur
+###Lancer le serveur
+```bash
 node server.js
-Serveur disponible sur :
+```
+####Serveur disponible sur :http://localhost:3000
 
-
-http://localhost:3000
-Fonctionnalités
-Admin
-Ajouter un produit
-Afficher les produits
-Supprimer un produit
-Client
-Voir les produits
-Voir les avis par produit
-Laisser un avis (utilisateur + produit)
-API principale
+##Fonctionnalités
+- Admin
+- Ajouter un produit
+- Afficher les produits
+- Supprimer un produit
+- Client
+- Voir les produits
+- Voir les avis par produit
+- Laisser un avis (utilisateur + produit)
+  
+##API principale
 GET /api/products
 POST /api/products
 DELETE /api/products/:id
@@ -40,6 +41,7 @@ GET /api/users
 POST /api/users
 POST /api/reviews
 GET /api/products/:id/reviews
-Base de données
+
+##Base de données
 MongoDB locale : marketplace_db
 Collections : products, users, reviews, categories
