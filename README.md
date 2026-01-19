@@ -21,9 +21,9 @@ npm install express mongoose cors
 ```bash
 node server.js
 ```
-####Serveur disponible sur :http://localhost:3000
+#### Serveur disponible sur : http://localhost:3000
 
-##Fonctionnalités
+## Fonctionnalités
 - Admin
 - Ajouter un produit
 - Afficher les produits
@@ -33,7 +33,7 @@ node server.js
 - Voir les avis par produit
 - Laisser un avis (utilisateur + produit)
   
-##API principale
+## API principale
 GET /api/products
 POST /api/products
 DELETE /api/products/:id
