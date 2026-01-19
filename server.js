@@ -1,8 +1,12 @@
+//Cree serveur web
 const express = require('express');
+//connecte Node js a mango
 const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
+
+//Appeller API depuis html
 app.use(cors());
 app.use(express.json());
 
@@ -68,23 +72,31 @@ app.post('/api/products', async (req, res) => {
     res.status(201).json(product);
 });
 
-//Commentaire sur produit
+
+// cree review 
 app.post('/api/reviews', async (req, res) => {
     const review = new Review(req.body);
     await review.save();
     res.status(201).json(review);
 });
 
-// afficher review
 
-app.get('/api/reviews/:id', async (req, res) => {
-    const review = await Review.findById(req.params.id)
-        .populate('auteur', 'username')
-        .populate({
-            path: 'produit',
-            populate: { path: 'categorie' }
-        });
-    res.json(review);
+//Commentaire sur produit
+app.get('/api/reviews', async (req, res) => {
+    const reviews = await Review.find();
+    res.json(reviews);
+});
+
+// Avis par produit
+app.get('/api/products/:id/reviews', async (req, res) => {
+    const reviews = await Review.find({ produit: req.params.id })
+        .populate('auteur', 'username');
+    res.json(reviews);
+});
+
+app.get('/api/users', async (req, res) => {
+    const users = await User.find();
+    res.json(users);
 });
 
 app.post('/api/users', async (req, res) => {
@@ -108,25 +120,5 @@ app.delete('/api/products/:id', async (req, res) => {
         res.status(400).json({ message: "ID in valide" });
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.listen(3000, () => console.log("Serveur Garage sur port 3000"));

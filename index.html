@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Marketplace</title>
+
+<style>
+body { font-family: Arial; margin: 20px; }
+section { border: 1px solid #ccc; padding: 20px; margin-bottom: 30px; }
+.products { display: flex; gap: 20px; flex-wrap: wrap; }
+.card { border: 1px solid #aaa; padding: 10px; width: 220px; }
+.avis p { font-size: 14px; }
+</style>
+</head>
+
+<body>
+
+<h1>Marketplace</h1>
+
+<section>
+<h2>Dashboard Admin</h2>
+
+<form id="productForm">
+<input id="nom" placeholder="Nom" required>
+<input id="prix" type="number" placeholder="Prix" required>
+<input id="stock" type="number" placeholder="Stock" required>
+<button>Ajouter</button>
+</form>
+
+<ul id="adminProducts"></ul>
+</section>
+
+<section>
+<h2>Boutique</h2>
+<div class="products" id="shop"></div>
+</section>
+
+<section>
+<h2>Laisser un avis</h2>
+
+<form id="reviewForm">
+<select id="userSelect" required></select><br><br>
+<select id="productSelect" required></select><br><br>
+<textarea id="commentaire" placeholder="Commentaire" required></textarea><br>
+<button>Envoyer</button>
+</form>
+</section>
+
+<script>
+const API = 'http://localhost:3000/api';
+
+const userSelect = document.getElementById('userSelect');
+const productSelect = document.getElementById('productSelect');
+const adminProducts = document.getElementById('adminProducts');
+const shop = document.getElementById('shop');
+
+// Load
+async function loadAll() {
+    loadUsers();
+    loadProducts();
+}
+
+// user
+async function loadUsers() {
+    const res = await fetch(`${API}/users`);
+    const users = await res.json();
+
+    userSelect.innerHTML = '<option value="">-- Choisir un utilisateur --</option>';
+    users.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u._id;
+        opt.textContent = u.username;
+        userSelect.appendChild(opt);
+    });
+}
+
+// produit
+async function loadProducts() {
+    const res = await fetch(`${API}/products`);
+    const products = await res.json();
+
+    adminProducts.innerHTML = '';
+    shop.innerHTML = '';
+    productSelect.innerHTML = '<option value="">-- Choisir un produit --</option>';
+
+    products.forEach(p => {
+        // admin
+        const li = document.createElement('li');
+        li.innerHTML = `${p.nom} - ${p.prix} €
+        <button onclick="deleteProduct('${p._id}')">Supprimer</button>`;
+        adminProducts.appendChild(li);
+
+        // shop
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <h4>${p.nom}</h4>
+            <p>${p.prix} €</p>
+            <button onclick="voirAvis('${p._id}', this)">Voir les avis</button>
+            <div class="avis"></div>
+        `;
+        shop.appendChild(card);
+
+        // select
+        const opt = document.createElement('option');
+        opt.value = p._id;
+        opt.textContent = p.nom;
+        productSelect.appendChild(opt);
+    });
+}
+
+//Ajout produit
+productForm.onsubmit = async e => {
+    e.preventDefault();
+    await fetch(`${API}/products`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+            nom: nom.value,
+            prix: prix.value,
+            stock: stock.value
+        })
+    });
+    loadProducts();
+};
+
+//sup produit
+async function deleteProduct(id) {
+    await fetch(`${API}/products/${id}`, { method:'DELETE' });
+    loadProducts();
+}
+
+//ajout review
+reviewForm.onsubmit = async e => {
+    e.preventDefault();
+    await fetch(`${API}/reviews`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+            commentaire: commentaire.value,
+            produit: productSelect.value,
+            auteur: userSelect.value
+        })
+    });
+    commentaire.value = '';
+    alert("Avis ajouté");
+};
+
+// voir avis
+async function voirAvis(productId, btn) {
+    const res = await fetch(`${API}/products/${productId}/reviews`);
+    const avis = await res.json();
+
+    const div = btn.nextElementSibling;
+    div.innerHTML = '';
+
+    if (avis.length === 0) {
+        div.innerHTML = '<p>Aucun avis</p>';
+        return;
+    }
+
+    avis.forEach(a => {
+        div.innerHTML += `<p><strong>${a.auteur.username}</strong> : ${a.commentaire}</p>`;
+    });
+}
+
+loadAll();
+</script>
+
+</body>
+</html>
