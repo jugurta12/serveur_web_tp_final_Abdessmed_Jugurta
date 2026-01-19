@@ -16,9 +16,12 @@ Elle permet de gérer des produits, des utilisateurs et des avis via une API RES
 ### Installer les dépendances
 ```bash
 npm install express mongoose cors
+'''
 Lancer le serveur
 node server.js
 Serveur disponible sur :
+
+
 http://localhost:3000
 Fonctionnalités
 Admin
