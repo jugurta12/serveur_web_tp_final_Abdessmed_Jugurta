@@ -1,7 +1,7 @@
 # Marketplace – Projet Fullstack
 
-## Description
-Application marketplace réalisée avec Node.js, Express et MongoDB.  
+Application marketplace réalisée avec Node.js, Express et MongoDB.
+
 Elle permet de gérer des produits, des utilisateurs et des avis via une API REST et une interface web simple.
 
 ## Technologies
