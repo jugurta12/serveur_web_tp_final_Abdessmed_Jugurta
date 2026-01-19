@@ -1,0 +1,31 @@
+body {
+     font-family: Arial; margin: 20px; 
+    }
+
+section {
+    border: 1px solid #ccc;
+    padding: 20px; margin-bottom: 30px;
+}
+
+.products { 
+    display: flex; 
+    gap: 20px; 
+    flex-wrap: wrap; 
+}
+
+.card { 
+    border: 1px solid #aaa; 
+    padding: 10px; 
+    width: 220px; 
+}
+
+.avis p { 
+    font-size: 14px; 
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;  
+}

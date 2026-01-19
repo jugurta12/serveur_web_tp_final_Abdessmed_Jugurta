@@ -3,39 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <title>Marketplace</title>
-
-<style>
-body { font-family: Arial; margin: 20px; }
-section { border: 1px solid #ccc; padding: 20px; margin-bottom: 30px; }
-.products { display: flex; gap: 20px; flex-wrap: wrap; }
-.card { border: 1px solid #aaa; padding: 10px; width: 220px; }
-.avis p { font-size: 14px; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<div class="title">
 <h1>Marketplace</h1>
+</div>
 
 <section>
+<div class="title">
 <h2>Dashboard Admin</h2>
+
 
 <form id="productForm">
 <input id="nom" placeholder="Nom" required>
 <input id="prix" type="number" placeholder="Prix" required>
 <input id="stock" type="number" placeholder="Stock" required>
 <button>Ajouter</button>
+</div>
 </form>
 
 <ul id="adminProducts"></ul>
 </section>
 
 <section>
+<div class="title">
 <h2>Boutique</h2>
+</div>
 <div class="products" id="shop"></div>
 </section>
 
 <section>
+<div class="title">
 <h2>Laisser un avis</h2>
 
 <form id="reviewForm">
@@ -44,6 +45,7 @@ section { border: 1px solid #ccc; padding: 20px; margin-bottom: 30px; }
 <textarea id="commentaire" placeholder="Commentaire" required></textarea><br>
 <button>Envoyer</button>
 </form>
+</div>
 </section>
 
 <script>
